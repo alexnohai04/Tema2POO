@@ -1,6 +1,7 @@
 //TEMA 6
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 #include "clase.h"
 int main()
@@ -9,7 +10,10 @@ int main()
     Abonament a1,a2("Standard",10.2,2);
     Abonament_Premium s1,s2(30);
     Persoana p1,p2(38,"Nohai","56832981");
-    Abonat v1,v2("071231230",a1);
+    Abonat v1,v2("071231230",a2);
+    Clienti c1;
+    c1.adaugaAbonat(v2);
+    cout << c1;
     cout << "Hello World!\n";
 }
 
