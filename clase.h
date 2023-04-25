@@ -19,6 +19,13 @@ virtual const char* what() const noexcept override
 		return "Numar de telefon invalid";
 	}
 };
+class OptiuneInvalida : public Exceptie {
+public:
+	virtual const char* what() const noexcept override
+	{
+		return "Optiune  invalida";
+	}
+};
 
 class Abonament {
 public:
@@ -68,7 +75,6 @@ public:
 	void set_perioada(int _perioada) {
 		perioada = _perioada;
 	}
-
 	//functie virtuala pura
 	virtual void afisare();
 	//functie virtuala pura
@@ -78,6 +84,7 @@ protected:
 	float pret;
 	int perioada;
 };
+
 
 class Abonament_Premium : public Abonament {
 public:
@@ -190,8 +197,7 @@ private:
 class Abonat : public Persoana {
 public:
 	Abonat() { /*cout << "Constructor Default Abonat\n";*/ }
-	~Abonat() {
-		/*cout << "Destructor Default Abonat\n"; */}
+	~Abonat() {/*cout << "Destructor Default Abonat\n"; */}
 	//constructor cu parametrii
 	Abonat(std::string _nr_telefon, std::string _nume_abonament, float _pret, int _perioada ,int _id, std::string _nume, std::string _cnp):Persoana(_id,_nume,_cnp) {
 		//cout << "Constructor cu parametru Abonat\n";
@@ -261,72 +267,6 @@ protected:
 };
 
 
-//class Abonat : public Persoana {
-//public:
-//	Abonat() : x(nullptr) { /*cout << "Constructor Default Abonat\n";*/ }
-//	~Abonat() { delete x; /*cout << "Destructor Default Abonat\n";*/ }
-//	//constructor cu parametrii
-//	Abonat(std::string _nr_telefon, std::string _nume_abonament, float _pret, int _perioada, int _id, std::string _nume, std::string _cnp)
-//		: Persoana(_id, _nume, _cnp), x(new Abonament(_nume_abonament, _pret, _perioada)) {
-//		//cout << "Constructor cu parametru Abonat\n";
-//		nr_telefon = _nr_telefon;
-//		if (_nr_telefon.size() != 10)
-//			throw Exceptie();
-//	}
-//	Abonat(std::string _nr_telefon, std::string _nume_abonament, float _pret, int _perioada, Persoana& p)
-//		: Persoana(p), x(new Abonament(_nume_abonament, _pret, _perioada)) {
-//		//cout << "Constructor cu parametru Abonat\n";
-//		nr_telefon = _nr_telefon;
-//		if (_nr_telefon.size() != 10)
-//			throw Exceptie();
-//	}
-//	Abonat(std::string _nr_telefon, Abonament_Premium& a, Persoana& p)
-//		: Persoana(p), x(new Abonament_Premium(a)) {
-//		//cout << "Constructor cu parametru Abonat\n";
-//		if (_nr_telefon.size() != 10)
-//			throw Exceptie();
-//		nr_telefon = _nr_telefon;
-//	}
-//	//constructor de copiere
-//	Abonat(const Abonat& a) : Persoana(a), x(a.x ? new Abonament(*a.x) : nullptr) {
-//		nr_telefon = a.nr_telefon;
-//		//cout << "Constructor de copiere Abonat\n";
-//	}
-//	//supraincarcarea operatorului =
-//	Abonat& operator=(const Abonat& a) {
-//		Persoana::operator=(a);
-//		nr_telefon = a.nr_telefon;
-//		delete x;
-//		x = a.x ? new Abonament(*a.x) : nullptr;
-//		return *this;
-//	}
-//
-//	//getter nr_telefon
-//	std::string getNrTelefon() const {
-//		return nr_telefon;
-//	}
-//	//getter abonament
-//	Abonament* getAbonament() {
-//		return x;
-//	}
-//
-//	//setter
-//	void setNrTelefon(const std::string _nr_telefon) {
-//
-//		if (_nr_telefon.size() != 10)
-//			throw Exceptie();
-//		nr_telefon = _nr_telefon;
-//	}
-//	//functie virtuala de citire
-//	void citire();
-//	//functie virtuala de afisare
-//	void afisare();
-//
-//protected:
-//	std::string nr_telefon;
-//	Abonament* x;
-//};
-
 class Clienti {
 public:
 	Clienti() { /*cout << "Constructor Default Clienti";*/ }
@@ -353,12 +293,16 @@ public:
 	void stergeAbonat() {
 		client.pop_back();
 	}
-	
+	//functie de afisare
 	void afisare() {
 		for (int i = 0; i < client.size(); i++) {
-			std::cout << "\nAbonatul " << i+1 << ":\n";
+			std::cout << "\n============Abonatul " << i+1 << "============\n";
 			client[i]->afisare();
 		}
+		std::cout << "==================================\n";
+	}
+	int get_nr_abonati() {
+		return client.size();
 	}
 
 	int numar_abonati_premium() {
@@ -395,11 +339,11 @@ private:
 
 //functie virtuala de citire
 void Abonament::citire() {
-	std::cout << "Nume Abonament:\n";
+	std::cout << "Nume Abonament: ";
 	std::cin >> nume_abonament;
-	std::cout << "Pret:\n";
+	std::cout << "Pret: ";
 	std::cin >> pret;
-	std::cout << "Perioada:\n";
+	std::cout << "Perioada: ";
 	std::cin >> perioada;
 }
 //functie virtuala de afisare
@@ -415,16 +359,16 @@ void Abonament_Premium::afisare() {
 //functie virtuala de citire
 void Abonament_Premium::citire() { 
 	Abonament::citire();
-	std::cout << "Reducere:\n";
+	std::cout << "Reducere: ";
 	std::cin >> reducere;
 }
 //functie virtuala de citire
 void Persoana::citire() {
-	std::cout << "Id:\n";
+	std::cout << "Id: ";
 	std::cin >> id;
-	std::cout << "Nume:\n";
+	std::cout << "Nume: ";
 	std::cin >> nume;
-	std::cout << "CNP:\n";
+	std::cout << "CNP: ";
 	std::cin >> cnp;
 	if (cnp.size() != 13) {
 		//cout << "CNP invalid\n";
@@ -445,6 +389,25 @@ void Abonat::citire() {
 	if (nr_telefon.size() != 10) {
 		throw NumarTelefonInvalid();
 	}
+	std::cout << "Ce tip de abonament doriti sa adaugati?\n";
+	std::cout << "1. Abonament Standard\n";
+	std::cout << "2. Abonament Premium\n";
+	int optiune;
+	std::cin >> optiune;
+	if (optiune != 1 && optiune != 2) {
+		throw OptiuneInvalida();
+	}
+	if (optiune == 1) {
+		x = new Abonament();
+	}
+	else if (optiune == 2) {
+		x = new Abonament_Premium();
+	}
+	else {
+		throw Exceptie();
+	}
+	x->citire();
+	std::cout << "\n";
 	
 }
 //functie  de afisare

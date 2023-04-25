@@ -3,36 +3,36 @@
 #include <string>
 #include <vector>
 #include <exception>
-//using namespace std;
 #include "clase.h"
 int main()
 {
+	std::cout << "Bine ati venit la aplicatia de gestiune a abonamentelor!\n";
 	bool loop = 1;
 	static Clienti c1;
 	while (loop) {
-		std::cout<<"Bine ati venit la aplicatia de gestiune a abonamentelor!\n";
+		std::cout<<"Alege o actiune!\n";
 		std::cout << "1. Adaugare abonat\n";
 		std::cout << "2. Afisare abonati\n";
 		std::cout << "3. Numar abonati premium\n";
 		std::cout << "4. Suma totala incasata\n";
 		std::cout << "5. Iesire\n";
+		std::cout << "6. Clear\n";
 		int optiune;
+		std::cout << "Introduceti optiunea:";
 		std::cin >> optiune;
+		while (optiune < 1 || optiune > 6)
+		{
+			std::cout << "Introduceti optiunea:";
+			std::cin >> optiune;
+		}
+		
+		try{
 		switch (optiune) {
 		case 1: {
-			std::cout << "Ce tip de abonament doriti sa adaugati?\n";
-			std::cout << "1. Abonament Standard\n";
-			std::cout << "2. Abonament Premium\n";
-			int optiune2;
-			std::cin >> optiune2;
 			Abonat a1;
-			switch (optiune2) {
-			case 1: {
 				try {
-					Abonament v1;
-					v1.citire();
+					std::cout << "\nIntroduceti datele abonatului:\n";
 					a1.citire();
-					a1.setAbonament(&v1);
 					c1.adaugaAbonat(a1);
 					std::cout << "\nFelicitari! Ati adaugat un abonat cu succes!\n";
 				}
@@ -41,28 +41,13 @@ int main()
 				}
 				break;
 			}
-			case 2: {
-				try {
-					Abonament_Premium s1;
-					s1.citire();
-					a1.citire();
-					a1.setAbonament(&s1);
-					c1.adaugaAbonat(a1);
-					std::cout << "\nFelicitari! Ati adaugat un abonat cu succes!\n\n";
-				}
-				catch (Exceptie& e) {
-					std::cout << e.what() << "\n";
-				}
-				break;
-			}
-			}
-			break;
-		}
-			
 		case 2: {
 			try {
-				c1.afisare();
-			}
+				if (c1.get_nr_abonati() == 0)
+					std::cout << "Nu exista abonati!\n";
+				else
+					c1.afisare();
+			} 
 			catch (Exceptie& e) {
 				std::cout << e.what() << "\n";
 				}
@@ -90,7 +75,22 @@ int main()
   		  	    loop = 0;
    			    break;
 			}
+			case 6: {
+				system("cls");
+			}
 		}
+
+		}
+		catch (OptiuneInvalida& e) {
+			std::cout << e.what() << "\n";
+		}
+		catch (std::exception& e) {
+			std::cout << e.what() << "\n";
+		}
+		catch (...) {
+			std::cout << "Eroare necunoscuta\n";
+		}
+
 	}
 	return 0;
 }
