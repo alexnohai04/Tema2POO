@@ -244,6 +244,10 @@ public:
 			throw Exceptie();
 		nr_telefon = _nr_telefon;
 	}
+	//setter abonament
+	void setAbonament(Abonament* _x) {
+		x =_x;
+	}
 	//functie virtuala de citire
 	void citire();
 	//functie virtuala de afisare
@@ -349,10 +353,12 @@ public:
 	void stergeAbonat() {
 		client.pop_back();
 	}
-	//functie de afisare a tuturor abonatilor
+	
 	void afisare() {
-		for (auto c = client.begin(); c != client.end(); c++)
-			(*c)->afisare();
+		for (int i = 0; i < client.size(); i++) {
+			std::cout << "\nAbonatul " << i+1 << ":\n";
+			client[i]->afisare();
+		}
 	}
 
 	int numar_abonati_premium() {
@@ -431,7 +437,7 @@ void Persoana::afisare() {
 	std::cout << "Nume: " << nume << "\n";
 	std::cout << "CNP: " << cnp << "\n";
 }
-//functie virtuala de citire
+
 void Abonat::citire() {
 	Persoana::citire();
 	std::cout << "Numar Telefon:\n";
@@ -439,11 +445,9 @@ void Abonat::citire() {
 	if (nr_telefon.size() != 10) {
 		throw NumarTelefonInvalid();
 	}
-	if(x==nullptr)
-		x = new Abonament();
-	x->citire();
+	
 }
-//functie virtuala de afisare
+//functie  de afisare
 void Abonat::afisare() {
 	Persoana::afisare();
 	std::cout << "Numar Telefon: " << nr_telefon << "\n";
