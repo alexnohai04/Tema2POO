@@ -2,28 +2,53 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
+#include <exception>
+//using namespace std;
 #include "clase.h"
 int main()
 
 {
-    Abonament a1,a2("Standard",10.2,2);
-    Abonament_Premium s1,s2(30);
-    Persoana p1,p2(38,"Nohai","56832981");
-    Abonat v1,v2("071231230",a2);
-    Clienti c1;
-    c1.adaugaAbonat(v2);
-    cout << c1;
-    cout << "Hello World!\n";
+    try {
+        Abonament a1, a2("Standard", 10.2, 2);
+        Abonament_Premium s1, s2("Standard", 10.2, 2, 30);
+        Persoana p1, p2(38, "Nohai", "1234567890123");
+        Abonat v1, v2("0781531230", "Standard", 10, 5, 46, "Alex", "0987654321123"), v3("0712312306", "Standard", 10, 5, p2), v4("0712345886", s2, p2), v5("0734567854", s1, p1),v6("0712345678",a2,p1);
+        v3.afisare();
+        Clienti c1;
+     //   c1.adaugaAbonat(v2);
+        try {
+            v1.citire();
+        }
+        catch (Exceptie& e) {
+            std::cout << e.what() << "\n";
+        }
+
+        try {
+            p1.citire();
+        }
+        catch (Exceptie& e) {
+            std::cout << e.what() << "\n";
+        }
+      //  c1.adaugaAbonat(v1);
+        c1.adaugaAbonat(v4);
+      //  c1.adaugaAbonat(v5);
+        c1.adaugaAbonat(v6);
+       
+
+       std::cout << "\n"<<"Numar abonamente premium : " << c1.numar_abonati_premium() << "\n\n";
+       std::cout << "\n" << "Suma totala incasata : " << c1.suma_totala() << "\n\n";
+      //  c1.afisare();
+       std::cout << "GATA";
+    }
+    catch (Exceptie& e) {
+		std::cout << e.what() << "\n";
+	}
+    catch (std::exception& e) {
+		std::cout << e.what() << "\n";
+	}
+    catch (...) {
+		std::cout << "Eroare necunoscuta\n";
+	}
+
+    std::cout << "Hello World!\n";
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
